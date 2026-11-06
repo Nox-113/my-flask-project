@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>恭迎郝小主</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Microsoft YaHei', sans-serif;
+            overflow: hidden;
+            background: url('static/baby.jpg') no-repeat center center;
+            background-size: cover;
+            background-attachment: fixed;
+        }
+
+        .overlay {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(135deg, rgba(0,0,0,0.4), rgba(60,20,80,0.3));
+            z-index: 1;
+        }
+
+        /* 粒子特效 */
+        .particles {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 2;
+            pointer-events: none;
+        }
+        .particle {
+            position: absolute;
+            bottom: -20px;
+            border-radius: 50%;
+            background: rgba(255, 220, 180, 0.8);
+            box-shadow: 0 0 12px rgba(255, 200, 150, 0.9);
+            animation: floatUp linear infinite;
+        }
+        @keyframes floatUp {
+            0%   { transform: translateY(0) translateX(0) scale(1); opacity: 0; }
+            10%  { opacity: 1; }
+            90%  { opacity: 1; }
+            100% { transform: translateY(-110vh) translateX(40px) scale(0.3); opacity: 0; }
+        }
+
+        .container {
+            position: relative;
+            z-index: 3;
+            text-align: center;
+            color: #fff;
+            padding: 40px 60px;
+            border-radius: 24px;
+            background: rgba(255, 255, 255, 0.12);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            animation: cardIn 0.8s ease-out;
+        }
+        @keyframes cardIn {
+            from { opacity: 0; transform: translateY(30px) scale(0.95); }
+            to   { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        #title {
+            font-size: 58px;
+            font-weight: bold;
+            letter-spacing: 6px;
+            background: linear-gradient(90deg, #ffd9a0, #fff, #ffb6c1, #fff, #ffd9a0);
+            background-size: 300% 100%;
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: shine 4s linear infinite, breathe 2.5s ease-in-out infinite;
+        }
+        @keyframes shine { to { background-position: 300% center; } }
+        @keyframes breathe {
+            0%, 100% { filter: drop-shadow(0 0 6px rgba(255,255,255,0.4)); }
+            50%      { filter: drop-shadow(0 0 18px rgba(255,220,180,0.8)); }
+        }
+
+        .btn {
+            position: relative;
+            margin-top: 34px;
+            padding: 15px 46px;
+            font-size: 20px;
+            letter-spacing: 3px;
+            color: #fff;
+            background: linear-gradient(90deg, #ff9a9e, #fecfef);
+            border: none;
+            border-radius: 40px;
+            cursor: pointer;
+            overflow: hidden;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(255, 154, 158, 0.4);
+        }
+        .btn:hover {
+            transform: translateY(-3px) scale(1.03);
+            box-shadow: 0 8px 25px rgba(255, 154, 158, 0.6);
+        }
+        .btn:active { transform: scale(0.96); }
+        .btn::after {
+            content: '';
+            position: absolute;
+            top: 0; left: -60%;
+            width: 40%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.6), transparent);
+            transform: skewX(-20deg);
+            animation: sweep 2.5s infinite;
+        }
+        @keyframes sweep {
+            0% { left: -60%; }
+            60%, 100% { left: 120%; }
+        }
+
+        /* 立体大字“扎啤” */
+                        #zapi {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 4;
+            pointer-events: none;
+        }
+
+        .zi {
+            position: absolute;
+            font-size: 200px;
+            font-weight: 900;
+            line-height: 1;
+            color: #ffe9c7;
+            text-shadow:
+                2px 2px 0 #d4a574,
+                4px 4px 0 #c49464,
+                6px 6px 0 #b48454,
+                8px 8px 0 #a47444,
+                10px 10px 0 #946434,
+                12px 12px 0 #845424,
+                14px 14px 0 #744414,
+                16px 16px 25px rgba(0,0,0,0.5),
+                0 0 50px rgba(255,200,150,0.6);
+            opacity: 0;
+        }
+
+        /* 左圈位置：偏左上 */
+        .zi-left {
+            left: 12%;
+            top: 42%;
+            transform: translateY(60px);
+        }
+
+        /* 右圈位置：偏右上 */
+        .zi-right {
+            right: 10%;
+            top: 38%;
+            transform: translateY(60px);
+        }
+
+        #zapi.show .zi {
+            animation: rise 2.5s ease-out forwards;
+        }
+        #zapi.show .zi-right {
+            animation-delay: 0.2s;   /* 两个字错开出现，更有层次 */
+        }
+
+        @keyframes rise {
+            0%   { opacity: 0; transform: translateY(60px) scale(0.85); }
+            40%  { opacity: 1; }
+            100% { opacity: 1; transform: translateY(0) scale(1); }
+        }
+        #zapi.show {
+            animation: rise 2.5s ease-out forwards;
+        }
+        @keyframes rise {
+            0%   { opacity: 0; transform: translateY(60px) scale(0.8); }
+            40%  { opacity: 1; }
+            100% { opacity: 1; transform: translateY(-10px) scale(1); }
+        }
+    </style>
+</head>
+<body>
+        <div class="container">
+        <h1 id="title">恭迎郝小主</h1>
+        <button class="btn" onclick="showZapi()">请安</button>
+    </div>
+
+        <div id="zapi">
+        <span class="zi zi-left">扎</span>
+        <span class="zi zi-right">啤</span>
+    </div>
+
+    <script>
+        // 粒子生成
+        const box = document.getElementById('particles');
+        for (let i = 0; i < 25; i++) {
+            const p = document.createElement('div');
+            p.className = 'particle';
+            p.style.left = Math.random() * 100 + '%';
+            p.style.animationDuration = (5 + Math.random() * 8) + 's';
+            p.style.animationDelay = (Math.random() * 6) + 's';
+            p.style.width = p.style.height = (4 + Math.random() * 8) + 'px';
+            box.appendChild(p);
+        }
+
+        // 点击“请安”，“扎啤”缓缓上升
+        function showZapi() {
+            const z = document.getElementById('zapi');
+            z.classList.remove('show');
+            void z.offsetWidth;
+            z.classList.add('show');
+        }
+    </script>
+</body>
+</html>
